@@ -1,18 +1,22 @@
-# Render Blueprint. Dashboard -> New -> Blueprint -> repo ni tanlang.
-# BOT_TOKEN, OWNER_ID va DATABASE_URL qiymatlarini Render dashboardidan
-# qo'lda kiritasiz (sync: false — ular repoga tushmaydi).
+# Render Blueprint.
+#
+# MUHIM: xizmatni Dashboard -> New -> **Blueprint** orqali yarating.
+# "New -> Web Service" qilib qo'lda yaratilsa bu fayl umuman o'qilmaydi va
+# Render Python uchun o'zining standart `gunicorn` komandasini ishlatadi
+# (natija: `gunicorn: command not found`, status 127).
+#
+# BOT_TOKEN, OWNER_ID va DATABASE_URL ni Render dashboardidan kiritasiz —
+# ular `sync: false` bo'lgani uchun repoga tushmaydi.
 services:
   - type: web
     name: proteach-bot
     runtime: python
     plan: free
-    region: frankfurt
     buildCommand: pip install -r requirements.txt
     startCommand: python bot.py
     healthCheckPath: /healthz
+    autoDeploy: true
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12.11"
       - key: BOT_TOKEN
         sync: false
       - key: OWNER_ID
