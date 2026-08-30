@@ -1,0 +1,23 @@
+# Render Blueprint. Dashboard -> New -> Blueprint -> repo ni tanlang.
+# BOT_TOKEN, OWNER_ID va DATABASE_URL qiymatlarini Render dashboardidan
+# qo'lda kiritasiz (sync: false — ular repoga tushmaydi).
+services:
+  - type: web
+    name: proteach-bot
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.11"
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      # Neon Postgres ulanish satri. Bo'sh qoldirilsa SQLite ishlatiladi va
+      # Render'ning o'chuvchan diskida ma'lumot har deployda yo'qoladi.
+      - key: DATABASE_URL
+        sync: false

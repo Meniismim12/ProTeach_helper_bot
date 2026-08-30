@@ -1,0 +1,20 @@
+.venv/
+venv/
+env/
+
+data/
+*.db
+*.db-journal
+
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Token image ichiga tushmasin — ishga tushirishda --env-file bilan beriladi
+.env
+
+.git/
+.gitignore
+.idea/
+.vscode/
+README.md
