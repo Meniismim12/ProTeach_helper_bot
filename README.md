@@ -195,6 +195,41 @@ HTTP server tinglayapti: 0.0.0.0:10000
 > ikkita nusxa ishlasa Telegram `Conflict: terminated by other getUpdates`
 > xatosini beradi.
 
+#### Render'da uchraydigan xatolar
+
+**`bash: line 1: gunicorn: command not found` — `Exited with status 127`**
+
+Xizmat **Blueprint** orqali emas, qo'lda *New → Web Service* qilib yaratilgan,
+shuning uchun `render.yaml` o'qilmagan va Render Python uchun o'zining standart
+`gunicorn` komandasini ishlatgan. Bu botga gunicorn kerak emas — u aiohttp
+bilan o'z serverini ochadi.
+
+*Settings → Build & Deploy* bo'limida qo'lda to'g'rilang:
+
+| Maydon | Qiymat |
+|---|---|
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `python bot.py` |
+
+So'ng *Manual Deploy → Deploy latest commit*.
+
+Muqobil yo'l — xizmatni o'chirib, *New → Blueprint* orqali qayta yarating: u
+holda `render.yaml` dagi hamma narsa avtomatik qo'llanadi. Yoki *Settings →
+Runtime* ni **Docker** ga o'tkazing — repodagi `Dockerfile` ning `CMD` si
+allaqachon `python bot.py`.
+
+**`No open ports detected`**
+
+`DATABASE_URL` yoki boshqa sabab bilan bot ishga tushmay yiqilgan — loglarni
+qarang. Webhook rejimi yoqilganda bot `$PORT` da server ochadi; agar loglarda
+`polling rejimi` deb yozilgan bo'lsa, demak `RENDER_EXTERNAL_URL` yetib
+kelmagan — `WEBHOOK_BASE_URL` ni qo'lda kiriting.
+
+**`Conflict: terminated by other getUpdates request`**
+
+Bir token bilan ikkita nusxa ishlayapti — lokal botni yoki eski xizmatni
+o'chiring.
+
 ### Variant 2 — Oracle Cloud Always Free VM
 
 Abadiy tekin, 4 ARM yadro / 24 GB RAM, hech qanday cheklovsiz.
